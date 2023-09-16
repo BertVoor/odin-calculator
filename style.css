@@ -30,15 +30,30 @@
 	font-size: 2em;
 }
 
-#screen {
+#screenContainer {
 	background-color: beige;
 	width: 100%;
 	border: 2px solid green;
+	display: flex;
+	flex-direction: column;
+	aspect-ratio: 3/1;
+}
+
+.screen {
 	color: black;
-	font-size: 5em;
 	font-family: digital-7;
 	text-align: end;
 }
+
+#screenTop {
+	font-size: 2em;
+	flex-basis: 33.33%;
+}
+#screenBottom {
+	font-size: 5em;
+	flex-basis: 66.66%;
+}
+
 #buttons {
 	display: flex;
 	flex-direction: column;
