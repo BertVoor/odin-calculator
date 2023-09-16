@@ -55,7 +55,7 @@
 	flex-wrap: nowrap;
 }
 
-button.operator.top {
+button.top {
 	flex-basis: 25%;
 	aspect-ratio: 1/1;
 }
