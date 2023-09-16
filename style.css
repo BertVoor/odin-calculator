@@ -1,3 +1,8 @@
+@font-face {
+	font-family: digital-7;
+	src: url("fonts/digital-7/Digital7Mono-Yz9J4.ttf");
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -23,11 +28,10 @@
 #screen {
 	background-color: beige;
 	width: 100%;
-	height: 15vw;
 	border: 2px solid green;
 	color: black;
-	font-size: 2em;
-	font-family: monospace;
+	font-size: 5em;
+	font-family: digital-7;
 }
 #buttons {
 	display: flex;
