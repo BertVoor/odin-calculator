@@ -60,7 +60,7 @@ button.operator.top {
 	aspect-ratio: 1/1;
 }
 
-button.operator.right {
+button.right {
 	flex-basis: 50%;
 	aspect-ratio: 1/2;
 }
