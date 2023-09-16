@@ -6,34 +6,32 @@ let secondNumber = "";
 const buttons = document.querySelectorAll("button");
 
 buttons.forEach((button) => {
-	button.addEventListener("click", (button) => {
-		if (button.target.class != operator) {
-			if (!operator) {
-				firstNumber += button.target.textContent;
-			} else {
-				secondNumber += button.target.textContent;
-			}
-		} else if (button.target.class) {
-			operator = button.target.textContent;
-		}
-
-		console.log(firstNumber);
-		console.log(operator);
-		console.log(secondNumber);
-	});
+	button.addEventListener("click", (button) => {});
 });
 
 function add(a, b) {
 	return a + b;
 }
-
 function subtract(a, b) {
 	return a - b;
 }
-
 function multiply(a, b) {
 	return a * b;
 }
 function divide(a, b) {
 	return a / b;
+}
+function operate(operator, firsNumber, secondNumber) {
+	if (operator == "+") {
+		add(firsNumber, secondNumber);
+	}
+	if (operator == "-") {
+		subtract(firsNumber, secondNumber);
+	}
+	if (operator == "*") {
+		multiply(firsNumber, secondNumber);
+	}
+	if (operator == "/") {
+		divide(firsNumber, secondNumber);
+	}
 }
