@@ -5,13 +5,15 @@ let displayValue = "";
 let operator;
 
 const buttons = document.querySelectorAll("button");
-const screen = document.querySelector("#screen");
+const screenTop = document.querySelector("#screenTop");
+const screenBottom = document.querySelector("#screenBottom");
+const operators = document.querySelectorAll(".operator");
 
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
 		const value = button.target.textContent;
 		displayValue += value;
-		updateScreen(displayValue);
+		updateScreen(displayValue, "bottom");
 
 		if (button.target.classList.contains("operator")) {
 			operator = value;
@@ -24,8 +26,9 @@ buttons.forEach((button) => {
 			}
 		}
 		if (button.target.id == "equals") {
-			displayValue += operate(operator, firstNumber, secondNumber);
-			updateScreen(displayValue);
+			updateScreen(displayValue, "top");
+			const result = operate(operator, firstNumber, secondNumber);
+			updateScreen(result, "bottom");
 		}
 	});
 });
@@ -43,7 +46,6 @@ function divide(a, b) {
 	return a / b;
 }
 function operate(operator, firstNumber, secondNumber) {
-	console.log("started");
 	let total;
 	switch (operator) {
 		case "+":
@@ -52,7 +54,7 @@ function operate(operator, firstNumber, secondNumber) {
 		case "-":
 			total = subtract(firstNumber, secondNumber);
 			break;
-		case "*":
+		case "x":
 			total = multiply(firstNumber, secondNumber);
 			break;
 		case "/":
@@ -61,6 +63,8 @@ function operate(operator, firstNumber, secondNumber) {
 	}
 	return total;
 }
-function updateScreen(displayValue) {
-	screen.textContent = displayValue;
+function updateScreen(displayValue, screen) {
+	screen == "top"
+		? (screenTop.textContent = displayValue)
+		: (screenBottom.textContent = displayValue);
 }
