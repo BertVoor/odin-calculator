@@ -21,17 +21,24 @@ function multiply(a, b) {
 function divide(a, b) {
 	return a / b;
 }
-function operate(operator, firsNumber, secondNumber) {
-	if (operator == "+") {
-		add(firsNumber, secondNumber);
+function operate(operator, firstNumber, secondNumber) {
+	console.log("started");
+	let total;
+	switch (operator) {
+		case "+":
+			total = add(firstNumber, secondNumber);
+			break;
+		case "-":
+			total = subtract(firstNumber, secondNumber);
+			break;
+		case "*":
+			total = multiply(firstNumber, secondNumber);
+			break;
+		case "/":
+			total = divide(firstNumber, secondNumber);
+			break;
 	}
-	if (operator == "-") {
-		subtract(firsNumber, secondNumber);
-	}
-	if (operator == "*") {
-		multiply(firsNumber, secondNumber);
-	}
-	if (operator == "/") {
-		divide(firsNumber, secondNumber);
-	}
+	return total;
 }
+
+// operate("+", 4, 5);
