@@ -7,7 +7,11 @@ let operator;
 const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
 const screenBottom = document.querySelector("#screenBottom");
+const screenContainer = document.querySelector("#screenContainer");
 const operators = document.querySelectorAll(".operator");
+
+setFontSizes();
+window.addEventListener("resize", setFontSizes);
 
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
@@ -71,4 +75,10 @@ function updateScreen(displayValue, screen) {
 	screen == "top"
 		? (screenTop.textContent = displayValue)
 		: (screenBottom.textContent = displayValue);
+}
+
+function setFontSizes() {
+	let width = screenContainer.offsetWidth;
+	screenTop.style.fontSize = `${width / 9.2}px`;
+	screenBottom.style.fontSize = `${width / 4.6}px`;
 }

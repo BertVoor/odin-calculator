@@ -13,12 +13,14 @@
 #calculator {
 	width: 50vw;
 	max-width: 400px;
+	max-height: 80vh;
 	padding: 15px;
 	background-color: #2cb099;
 	display: flex;
 	flex-direction: column;
 	margin: 0 auto;
 	border-radius: 15px;
+	/* aspect-ratio: 6/10; */
 }
 
 #calcName {
@@ -36,6 +38,7 @@
 	border: 2px solid green;
 	display: flex;
 	flex-direction: column;
+
 	aspect-ratio: 3/1;
 }
 
@@ -50,7 +53,6 @@
 	flex-basis: 33.33%;
 }
 #screenBottom {
-	font-size: 5em;
 	flex-basis: 66.66%;
 }
 
