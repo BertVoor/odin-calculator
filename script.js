@@ -27,7 +27,11 @@ buttons.forEach((button) => {
 		}
 		if (button.target.id == "equals") {
 			updateScreen(displayValue, "top");
-			const result = operate(operator, firstNumber, secondNumber);
+			let result = operate(operator, firstNumber, secondNumber);
+			if (result.toString().length > 10) {
+				const i = result.toString().indexOf(".");
+				result = result.toFixed(9 - i);
+			}
 			updateScreen(result, "bottom");
 		}
 	});
