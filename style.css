@@ -102,6 +102,6 @@ button.number {
 #num0 {
 	flex-grow: 1;
 }
-button#ac {
+button#clear {
 	background-color: #b75860;
 }
