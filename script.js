@@ -2,7 +2,7 @@ console.log("script loaded");
 let firstNumber = "";
 let secondNumber = "";
 let displayValue = "";
-let operator;
+let operator = "";
 
 const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
@@ -24,9 +24,16 @@ buttons.forEach((button) => {
 			updateScreen(displayValue, "bottom");
 
 			if (button.target.classList.contains("operator")) {
-				operator = value;
+				if (firstNumber && !operator) {
+					operator = value;
+				} else if (firstNumber && operator) {
+					secondNumber += value;
+				} else {
+					firstNumber += value;
+				}
 			}
 			if (button.target.className == "number") {
+				//TODO: fix below so 12+7-5*3=42
 				if (!operator) {
 					firstNumber += value;
 				} else {
