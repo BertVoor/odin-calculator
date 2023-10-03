@@ -16,6 +16,8 @@ window.addEventListener("resize", setFontSizes);
 
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
+		// TODO: after equals result -> firstNumber
+
 		if (button.target.id == "clear") {
 			clearCalculator();
 		} else {
@@ -25,6 +27,8 @@ buttons.forEach((button) => {
 
 			if (button.target.classList.contains("operator")) {
 				operator = value;
+				// console.log(`operator first ${firstNumber}`);
+				// console.log(`operator sec ${secondNumber}`);
 			}
 			if (button.target.className == "number") {
 				if (!operator) {
@@ -41,6 +45,9 @@ buttons.forEach((button) => {
 					result = result.toFixed(9 - i);
 				}
 				updateScreen(result, "bottom");
+				displayValue = result;
+				firstNumber = result;
+				secondNumber = "";
 			}
 		}
 	});
