@@ -21,9 +21,6 @@ buttons.forEach((button) => {
 		} else {
 			const value = button.target.textContent;
 
-			//updateScreen(displayValue, "bottom");
-			console.log(`value begin: ${value}`);
-
 			if (button.target.classList.contains("operator")) {
 				if (!firstNumber) {
 					firstNumber = value;
@@ -34,27 +31,21 @@ buttons.forEach((button) => {
 				} else if (!secondNumber) {
 					secondNumber = value;
 					displayValue += value;
-					console.log(`secondNumber:${secondNumber}`);
-				}
-				// displayValue += value;
-				// updateScreen(displayValue, "bottom");
-				//(firstNumber && secondNumber)
-				else {
-					updateScreen(displayValue, "top");
+				} else {
+					updateScreen("top");
 
 					let result = operate(operator, firstNumber, secondNumber);
 					operator = value;
 					displayValue = result + value;
 					firstNumber = result;
-					console.log(`first Number: ${firstNumber}`);
 					secondNumber = "";
 				}
-				updateScreen(displayValue, "bottom");
+				updateScreen("bottom");
 			}
 
 			if (button.target.className == "number") {
 				displayValue += value;
-				updateScreen(displayValue, "bottom");
+				updateScreen("bottom");
 				if (!operator) {
 					firstNumber += value;
 				} else {
@@ -62,15 +53,16 @@ buttons.forEach((button) => {
 				}
 			}
 			if (button.target.id == "equals") {
-				updateScreen(displayValue, "top");
-				console.log(firstNumber, operator, secondNumber);
-				let result = operate(operator, firstNumber, secondNumber);
+				if (firstNumber && operator && secondNumber) {
+					updateScreen("top");
+					let result = operate(operator, firstNumber, secondNumber);
 
-				updateScreen(result, "bottom");
-				displayValue = result;
-				firstNumber = result;
-				secondNumber = "";
-				operator = null;
+					displayValue = result;
+					updateScreen("bottom");
+					firstNumber = result;
+					secondNumber = "";
+					operator = null;
+				}
 			}
 		}
 	});
@@ -86,7 +78,8 @@ function multiply(a, b) {
 	return a * b;
 }
 function divide(a, b) {
-	return a / b;
+	b == "0" ? (result = "nope") : (result = a / b);
+	return result;
 }
 function operate(operator, firstNumber, secondNumber) {
 	let total;
@@ -104,14 +97,14 @@ function operate(operator, firstNumber, secondNumber) {
 			total = divide(firstNumber, secondNumber);
 			break;
 	}
-	// console.log(total);
+	//round up total to never overflow the display
 	if (total.toString().length > 10) {
 		const i = total.toString().indexOf(".");
 		total = total.toFixed(9 - i);
 	}
 	return total;
 }
-function updateScreen(displayValue, screen) {
+function updateScreen(screen) {
 	screen == "top"
 		? (screenTop.textContent = displayValue)
 		: (screenBottom.textContent = displayValue);
@@ -126,8 +119,9 @@ function setFontSizes() {
 function clearCalculator() {
 	firstNumber = "";
 	secondNumber = "";
-	displayValue = "";
+	displayValue = "0";
+	updateScreen("bottom");
 	operator = null;
-	updateScreen("", "top");
-	updateScreen("0", "bottom");
+	displayValue = "";
+	updateScreen("top");
 }
