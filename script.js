@@ -8,8 +8,7 @@ const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
 const screenBottom = document.querySelector("#screenBottom");
 const screenContainer = document.querySelector("#screenContainer");
-// const operators = document.querySelectorAll(".operator");
-// const clearButton = document.querySelector("#clear");
+const commaBtn = document.querySelector("#comma");
 
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
@@ -28,6 +27,7 @@ buttons.forEach((button) => {
 				} else if (!operator) {
 					operator = value;
 					displayValue += value;
+					commaBtn.disabled = false;
 				} else if (!secondNumber) {
 					secondNumber = value;
 					displayValue += value;
@@ -44,6 +44,9 @@ buttons.forEach((button) => {
 			}
 
 			if (button.target.className == "number") {
+				if (value == ".") {
+					commaBtn.disabled = true;
+				}
 				displayValue += value;
 				updateScreen("bottom");
 				if (!operator) {
@@ -54,6 +57,7 @@ buttons.forEach((button) => {
 			}
 			if (button.target.id == "equals") {
 				if (firstNumber && operator && secondNumber) {
+					commaBtn.disabled = false;
 					updateScreen("top");
 					let result = operate(operator, firstNumber, secondNumber);
 
