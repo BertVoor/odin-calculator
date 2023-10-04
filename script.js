@@ -13,63 +13,49 @@ const clearButton = document.querySelector("#clear");
 
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
-//TODO: fix below so 12+7-5*3=42
+
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
 		if (button.target.id == "clear") {
 			clearCalculator();
 		} else {
 			const value = button.target.textContent;
-			displayValue += value;
-			updateScreen(displayValue, "bottom");
 
-			// if (button.target.classList.contains("operator")) {
-			// 	if (firstNumber && !operator) {
-			// 		console.log(`operator`);
-			// 		operator = value;
-			// 	} else if (firstNumber && operator && !secondNumber) {
-			// 		console.log(`second Number`);
-			// 		secondNumber += value;
-			// 	} else if (firstNumber && secondNumber) {
-			// 		console.log("second operator");
-			// 		updateScreen(displayValue, "top");
-			// 		let result = operate(operator, firstNumber, secondNumber);
-
-			// 		updateScreen(result, "bottom");
-			// 		displayValue = result;
-			// 		firstNumber = result;
-			// 		console.log(`first Number: ${firstNumber}`);
-			// 		secondNumber = "";
-			// 		operator = value;
-			// 	} else {
-			// 		console.log(`first Number`);
-			// 		firstNumber += value;
-			// 	}
-			// }
+			//updateScreen(displayValue, "bottom");
+			console.log(`value begin: ${value}`);
 
 			if (button.target.classList.contains("operator")) {
-				if (firstNumber == "") {
+				if (!firstNumber) {
 					firstNumber = value;
-				} else if (firstNumber && operator == null) {
+					displayValue += value;
+				} else if (!operator) {
 					operator = value;
-				} else if (firstNumber && operator && secondNumber == "") {
+					displayValue += value;
+				} else if (!secondNumber) {
 					secondNumber = value;
-				} else if (firstNumber && secondNumber) {
+					displayValue += value;
+					console.log(`secondNumber:${secondNumber}`);
+				}
+				// displayValue += value;
+				// updateScreen(displayValue, "bottom");
+				//(firstNumber && secondNumber)
+				else {
 					updateScreen(displayValue, "top");
 
 					let result = operate(operator, firstNumber, secondNumber);
-
-					updateScreen(result, "bottom");
-					displayValue = result;
+					operator = value;
+					displayValue = result + value;
 					firstNumber = result;
 					console.log(`first Number: ${firstNumber}`);
 					secondNumber = "";
-					operator = value;
 				}
+				updateScreen(displayValue, "bottom");
 			}
 
 			if (button.target.className == "number") {
-				if (operator == null) {
+				displayValue += value;
+				updateScreen(displayValue, "bottom");
+				if (!operator) {
 					firstNumber += value;
 				} else {
 					secondNumber += value;
