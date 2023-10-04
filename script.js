@@ -2,7 +2,7 @@ console.log("script loaded");
 let firstNumber = "";
 let secondNumber = "";
 let displayValue = "";
-let operator = "";
+let operator = null;
 
 const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
@@ -13,7 +13,7 @@ const clearButton = document.querySelector("#clear");
 
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
-
+//TODO: fix below so 12+7-5*3=42
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
 		if (button.target.id == "clear") {
@@ -23,18 +23,53 @@ buttons.forEach((button) => {
 			displayValue += value;
 			updateScreen(displayValue, "bottom");
 
+			// if (button.target.classList.contains("operator")) {
+			// 	if (firstNumber && !operator) {
+			// 		console.log(`operator`);
+			// 		operator = value;
+			// 	} else if (firstNumber && operator && !secondNumber) {
+			// 		console.log(`second Number`);
+			// 		secondNumber += value;
+			// 	} else if (firstNumber && secondNumber) {
+			// 		console.log("second operator");
+			// 		updateScreen(displayValue, "top");
+			// 		let result = operate(operator, firstNumber, secondNumber);
+
+			// 		updateScreen(result, "bottom");
+			// 		displayValue = result;
+			// 		firstNumber = result;
+			// 		console.log(`first Number: ${firstNumber}`);
+			// 		secondNumber = "";
+			// 		operator = value;
+			// 	} else {
+			// 		console.log(`first Number`);
+			// 		firstNumber += value;
+			// 	}
+			// }
+
 			if (button.target.classList.contains("operator")) {
-				if (firstNumber && !operator) {
+				if (firstNumber == "") {
+					firstNumber = value;
+				} else if (firstNumber && operator == null) {
 					operator = value;
-				} else if (firstNumber && operator) {
-					secondNumber += value;
-				} else {
-					firstNumber += value;
+				} else if (firstNumber && operator && secondNumber == "") {
+					secondNumber = value;
+				} else if (firstNumber && secondNumber) {
+					updateScreen(displayValue, "top");
+
+					let result = operate(operator, firstNumber, secondNumber);
+
+					updateScreen(result, "bottom");
+					displayValue = result;
+					firstNumber = result;
+					console.log(`first Number: ${firstNumber}`);
+					secondNumber = "";
+					operator = value;
 				}
 			}
+
 			if (button.target.className == "number") {
-				//TODO: fix below so 12+7-5*3=42
-				if (!operator) {
+				if (operator == null) {
 					firstNumber += value;
 				} else {
 					secondNumber += value;
@@ -42,15 +77,14 @@ buttons.forEach((button) => {
 			}
 			if (button.target.id == "equals") {
 				updateScreen(displayValue, "top");
+				console.log(firstNumber, operator, secondNumber);
 				let result = operate(operator, firstNumber, secondNumber);
-				if (result.toString().length > 10) {
-					const i = result.toString().indexOf(".");
-					result = result.toFixed(9 - i);
-				}
+
 				updateScreen(result, "bottom");
 				displayValue = result;
 				firstNumber = result;
 				secondNumber = "";
+				operator = null;
 			}
 		}
 	});
@@ -84,7 +118,11 @@ function operate(operator, firstNumber, secondNumber) {
 			total = divide(firstNumber, secondNumber);
 			break;
 	}
-	console.log(total);
+	// console.log(total);
+	if (total.toString().length > 10) {
+		const i = total.toString().indexOf(".");
+		total = total.toFixed(9 - i);
+	}
 	return total;
 }
 function updateScreen(displayValue, screen) {
