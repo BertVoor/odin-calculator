@@ -14,12 +14,18 @@ body {
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+}
 header {
 	margin: 2vh;
 	text-align: center;
 	font-size: 2em;
-	color: #2cb099;
-	text-shadow: 5px 4px 2px #013241;
+	color: whitesmoke;
+	text-shadow: 4px 4px 4px #633c17;
 }
 
 #calculator {
@@ -108,4 +114,14 @@ button {
 }
 button#clear {
 	background-color: #b75860;
+}
+
+#copyright {
+	text-align: center;
+	color: whitesmoke;
+	bottom: 15vh;
+	padding: 2vh 0;
+}
+#copyright a {
+	color: whitesmoke;
 }
