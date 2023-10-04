@@ -8,8 +8,8 @@ const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
 const screenBottom = document.querySelector("#screenBottom");
 const screenContainer = document.querySelector("#screenContainer");
-const operators = document.querySelectorAll(".operator");
-const clearButton = document.querySelector("#clear");
+// const operators = document.querySelectorAll(".operator");
+// const clearButton = document.querySelector("#clear");
 
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
