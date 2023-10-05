@@ -13,7 +13,6 @@ const commaBtn = document.querySelector("#comma");
 
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
-
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
 		const value = button.target.textContent;
@@ -21,12 +20,12 @@ buttons.forEach((button) => {
 			clearCalculator();
 		} else {
 			// TODO:
-			// number after equals doesn't override firstNumber
 			// 2.8+8.3 displays as 11.1000000
 			// still possible to press 2x operator
 			// add keyboard support
 
 			if (button.target.classList.contains("operator")) {
+				//if (lastKeyPressed == "+" || lastKeyPressed == "x" || l)
 				if (!firstNumber) {
 					firstNumber = value;
 					displayValue += value;
@@ -46,6 +45,7 @@ buttons.forEach((button) => {
 					//use result as firstNumber for next calculation
 					firstNumber = result;
 					secondNumber = "";
+					commaBtn.disabled = false;
 				}
 				updateScreen("bottom");
 			}
@@ -143,4 +143,5 @@ function clearCalculator() {
 	operator = null;
 	displayValue = "";
 	updateScreen("top");
+	commaBtn.disabled = false;
 }
