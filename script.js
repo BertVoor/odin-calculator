@@ -3,6 +3,7 @@ let firstNumber = "";
 let secondNumber = "";
 let displayValue = "";
 let operator = null;
+let lastKeyPressed;
 
 const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
@@ -15,10 +16,15 @@ window.addEventListener("resize", setFontSizes);
 
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
+		const value = button.target.textContent;
 		if (button.target.id == "clear") {
 			clearCalculator();
 		} else {
-			const value = button.target.textContent;
+			// TODO:
+			// number after equals doesn't override firstNumber
+			// 2.8+8.3 displays as 11.1000000
+			// still possible to press 2x operator
+			// add keyboard support
 
 			if (button.target.classList.contains("operator")) {
 				if (!firstNumber) {
@@ -37,6 +43,7 @@ buttons.forEach((button) => {
 					let result = operate(operator, firstNumber, secondNumber);
 					operator = value;
 					displayValue = result + value;
+					//use result as firstNumber for next calculation
 					firstNumber = result;
 					secondNumber = "";
 				}
@@ -44,9 +51,16 @@ buttons.forEach((button) => {
 			}
 
 			if (button.target.className == "number") {
+				//number input after "=" resets firstNumber
+				if (lastKeyPressed == "=") {
+					firstNumber = "";
+					displayValue = "";
+				}
+				//not possible to type "." 2x
 				if (value == ".") {
 					commaBtn.disabled = true;
 				}
+				//operator input after "=" uses result as firstNumber
 				displayValue += value;
 				updateScreen("bottom");
 				if (!operator) {
@@ -69,6 +83,7 @@ buttons.forEach((button) => {
 				}
 			}
 		}
+		lastKeyPressed = value;
 	});
 });
 
