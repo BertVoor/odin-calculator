@@ -4,6 +4,7 @@ let secondNumber = "";
 let displayValue = "";
 let operator = null;
 let lastKeyPressed;
+let value;
 
 const buttons = document.querySelectorAll("button");
 const screenTop = document.querySelector("#screenTop");
@@ -11,80 +12,49 @@ const screenBottom = document.querySelector("#screenBottom");
 const screenContainer = document.querySelector("#screenContainer");
 const commaBtn = document.querySelector("#comma");
 
+// TODO:
+// 2.8+8.3 displays as 11.1000000
+
 setFontSizes();
 window.addEventListener("resize", setFontSizes);
+
 buttons.forEach((button) => {
 	button.addEventListener("click", (button) => {
-		const value = button.target.textContent;
+		value = button.target.textContent;
 		if (button.target.id == "clear") {
 			clearCalculator();
-		} else {
-			// TODO:
-			// 2.8+8.3 displays as 11.1000000
-			// still possible to press 2x operator
-			// add keyboard support
-
-			if (button.target.classList.contains("operator")) {
-				//if (lastKeyPressed == "+" || lastKeyPressed == "x" || l)
-				if (!firstNumber) {
-					firstNumber = value;
-					displayValue += value;
-				} else if (!operator) {
-					operator = value;
-					displayValue += value;
-					commaBtn.disabled = false;
-				} else if (!secondNumber) {
-					secondNumber = value;
-					displayValue += value;
-				} else {
-					updateScreen("top");
-
-					let result = operate(operator, firstNumber, secondNumber);
-					operator = value;
-					displayValue = result + value;
-					//use result as firstNumber for next calculation
-					firstNumber = result;
-					secondNumber = "";
-					commaBtn.disabled = false;
-				}
-				updateScreen("bottom");
-			}
-
-			if (button.target.className == "number") {
-				//number input after "=" resets firstNumber
-				if (lastKeyPressed == "=") {
-					firstNumber = "";
-					displayValue = "";
-				}
-				//not possible to type "." 2x
-				if (value == ".") {
-					commaBtn.disabled = true;
-				}
-				//operator input after "=" uses result as firstNumber
-				displayValue += value;
-				updateScreen("bottom");
-				if (!operator) {
-					firstNumber += value;
-				} else {
-					secondNumber += value;
-				}
-			}
-			if (button.target.id == "equals") {
-				if (firstNumber && operator && secondNumber) {
-					commaBtn.disabled = false;
-					updateScreen("top");
-					let result = operate(operator, firstNumber, secondNumber);
-
-					displayValue = result;
-					updateScreen("bottom");
-					firstNumber = result;
-					secondNumber = "";
-					operator = null;
-				}
-			}
 		}
+		if (button.target.classList.contains("operator")) {
+			inputOperator();
+		}
+		if (button.target.className == "number") {
+			inputNumber();
+		}
+		if (button.target.id == "equals") {
+			calculateTotal();
+		}
+
 		lastKeyPressed = value;
 	});
+});
+
+window.addEventListener("keypress", (e) => {
+	if (e.key == "*") {
+		value = "x";
+	} else if (e.key == "Enter") {
+		value = "=";
+	} else value = e.key;
+
+	console.log(value);
+	if ((value >= 0 && value <= 9) || value == ".") {
+		inputNumber();
+	}
+	if (value == "=") {
+		calculateTotal();
+	}
+	if (value == "+" || value == "-" || value == "x" || value == "/") {
+		inputOperator();
+	}
 });
 
 function add(a, b) {
@@ -144,4 +114,70 @@ function clearCalculator() {
 	displayValue = "";
 	updateScreen("top");
 	commaBtn.disabled = false;
+}
+
+function inputOperator() {
+	if (!firstNumber) {
+		if (value == "-") {
+			firstNumber = value;
+			displayValue += value;
+		}
+	} else if (!operator) {
+		operator = value;
+		displayValue += value;
+		commaBtn.disabled = false;
+	} else if (!secondNumber) {
+		if (value == "-") {
+			secondNumber = value;
+			displayValue += value;
+		}
+	} else {
+		if (secondNumber != "-") {
+			//prevent running operate() if user clicks operator + "-"
+			updateScreen("top");
+
+			let result = operate(operator, firstNumber, secondNumber);
+			operator = value;
+			displayValue = result + operator;
+			//use result as firstNumber for next calculation
+			firstNumber = result;
+			secondNumber = "";
+			commaBtn.disabled = false;
+		}
+	}
+
+	updateScreen("bottom");
+}
+function inputNumber() {
+	//number input after "=" resets firstNumber
+	if (lastKeyPressed == "=") {
+		firstNumber = "";
+		displayValue = "";
+	}
+	//not possible to type "." 2x
+	if (value == ".") {
+		commaBtn.disabled = true;
+	}
+	//operator input after "=" uses result as firstNumber
+	displayValue += value;
+	updateScreen("bottom");
+	if (!operator) {
+		firstNumber += value;
+	} else {
+		secondNumber += value;
+	}
+}
+
+function calculateTotal() {
+	if (firstNumber && operator && secondNumber) {
+		commaBtn.disabled = false;
+		updateScreen("top");
+		let result = operate(operator, firstNumber, secondNumber);
+
+		displayValue = result;
+		updateScreen("bottom");
+		firstNumber = result;
+		secondNumber = "";
+		operator = null;
+	}
 }
